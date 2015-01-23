@@ -1,0 +1,108 @@
+<!DOCTYPE>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<input type='text' placeholder='what would you like to see a gif of?'></input>
+	<button> FIND IT!!!</button>	
+
+	<img src=''></img>
+
+	<button id='back'>Go Back</button>
+	<button id='forward'>Go Forward</button>
+
+
+	<script>
+		var input = document.querySelector('input');
+		var button = document.querySelector('button');	
+		var img = document.querySelector('img');
+		var back = document.querySelector('#back');
+		var next = document.querySelector('#forward');
+		var search = ''
+
+	   	i = 0
+		
+		button.addEventListener('click', function(){
+			search = input.value;
+			
+			var url =  ("http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=dc6zaTOxFJmzC");
+
+			var xhr = new XMLHttpRequest();
+
+		    xhr.open("GET", url);
+
+		    xhr.addEventListener("load", function() {
+
+		    	var parsed = JSON.parse(xhr.responseText);
+
+		    	var show = parsed['data'][i]['images']['original']['url'];
+
+		    	img.src = show
+
+    		})
+
+    		xhr.send()	
+		})
+
+
+		back.addEventListener('click', function(){
+			var url =  ("http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=dc6zaTOxFJmzC");
+
+			var xhr = new XMLHttpRequest();
+
+		    xhr.open("GET", url);
+
+		    xhr.addEventListener("load", function() {
+
+		    	var parsed = JSON.parse(xhr.responseText);
+
+		    	var show = parsed['data'][i]['images']['original']['url'];
+
+		    	img.src = show
+		    	if (i > 0){
+					i --		    		
+		    	}
+
+    		})
+
+    		xhr.send()	
+		})
+
+		
+		next.addEventListener('click', function(){
+			var url =  ("http://api.giphy.com/v1/gifs/search?q=" + search + "&api_key=dc6zaTOxFJmzC");
+
+			var xhr = new XMLHttpRequest();
+
+		    xhr.open("GET", url);
+
+		    xhr.addEventListener("load", function() {
+
+		    	var parsed = JSON.parse(xhr.responseText);
+
+		    	var show = parsed['data'][i]['images']['original']['url'];
+
+		    	img.src = show
+
+		    	i++
+    		})
+
+    		xhr.send()	
+		})
+	</script>
+</body>
+</html>
+<!-- 
+Create a front end web app (no server) that cycles through gifs and shows them full screen.
+
+On the main page create a search bar with a textbox and button
+When the user types in something to search for, like funny cat the first gif result is shown full screen (you can leave the search bar showing if you want)
+Every time the user hits the left or right arrow key, or maybe hits a "next button", the next gif result is shown
+Use this as reference:
+
+endpoint: http://api.giphy.com/v1/gifs/search?q=funny%20cat&api_key=dc6zaTOxFJmzC
+Note that this is actually a public key that you can use
+ruby: response["data"][num]["images"]["original"]["url"]
+docs: https://github.com/giphy/GiphyAPI -->
